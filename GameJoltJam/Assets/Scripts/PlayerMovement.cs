@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class PlayerMovement : MonoBehaviour {
 
@@ -14,15 +15,23 @@ public class PlayerMovement : MonoBehaviour {
 
     private float input;
     private float rotationSpeed = 5f;
+	private NetworkIdentity netIdentity;
 
     void Start()
     {
         angularVelocity = gameObject.GetComponent<Rigidbody2D>().angularVelocity;
+		netIdentity = GetComponent<NetworkIdentity>();
     }
 
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+
+		if (!netIdentity.isLocalPlayer) {
+			return;
+		}
+
+
         if (mouseOn)
         {
             var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);

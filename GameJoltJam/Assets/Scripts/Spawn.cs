@@ -28,7 +28,8 @@ public class Spawn : MonoBehaviour {
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
-        InstantiateBullets();
+        if(player != null)
+            InstantiateBullets();
 
         spawnRegions.Add(new Vector3(-20, 10));
         spawnRegions.Add(new Vector3(-20, -10));
@@ -42,7 +43,7 @@ public class Spawn : MonoBehaviour {
         if (enemySpawnTimer > 2)
         {
             enemySpawnTimer = 0;
-            SpawnEnemy();
+            //SpawnEnemy();
         }
         enemySpawnTimer += Time.deltaTime;
 	
@@ -50,17 +51,18 @@ public class Spawn : MonoBehaviour {
 
     void InstantiateBullets()
     {
+
         for (int i = 0; i < noOfBullets; i++)
         {
-            if (player.name == "PewDiePie")
+            if (player.name.Contains("PewDiePie"))
             {
                 bullet = Instantiate(Resources.Load("Prefabs/fist")) as GameObject;
             } 
-            else if (player.name == "Markiplier")
+            else if (player.name.Contains("Markiplier"))
             {
                 bullet = Instantiate(Resources.Load("Prefabs/mustache")) as GameObject;
             }
-            else if (player.name == "SepticEye")
+            else if (player.name.Contains("SepticEye"))
             {
                 bullet = Instantiate(Resources.Load("Prefabs/eye")) as GameObject;
             }

@@ -55,6 +55,7 @@ public class Death : MonoBehaviour {
                 restartMenu.SetActive(true);
 
                 manager.GetComponent<ScoreManager>().playerIsAlive = false;
+                manager.GetComponent<NetManager>().playerConn = null;
 
                 GameJolt.API.Scores.Add((int)score, score.ToString(), tableID, extraData, (bool success) => {
                      Debug.Log(string.Format("Score Add {0}.", success ? "Successful" : "Failed"));
