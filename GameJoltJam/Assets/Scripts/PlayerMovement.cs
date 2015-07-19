@@ -10,6 +10,11 @@ public class PlayerMovement : MonoBehaviour {
 
     private float angularVelocity;
 
+    public bool mouseOn = true;
+
+    private float input;
+    private float rotationSpeed = 5f;
+
     void Start()
     {
         angularVelocity = gameObject.GetComponent<Rigidbody2D>().angularVelocity;
@@ -18,20 +23,31 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Quaternion rotation = Quaternion.LookRotation(transform.position - mousePosition, Vector3.forward);
+        if (mouseOn)
+        {
+            var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Quaternion rotation = Quaternion.LookRotation(transform.position - mousePosition, Vector3.forward);
 
-        transform.rotation = rotation;
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
+
+            input = Input.GetAxis("Horizontal");
+            GetComponent<Rigidbody2D>().AddForce(gameObject.transform.right * speed * input);
+
+            transform.rotation = rotation;
+        }
+        else
+        {
+            input = Input.GetAxis("Horizontal");
+            transform.Rotate(new Vector3(0,0, -input * rotationSpeed));
+        }
+
+        input = Input.GetAxis("Vertical");
+        GetComponent<Rigidbody2D>().AddForce(gameObject.transform.up * speed * input);
 
         if(angularVelocity != 0)
             gameObject.GetComponent<Rigidbody2D>().angularVelocity = 0;
 
-        float input = Input.GetAxis("Vertical");
-        GetComponent<Rigidbody2D>().AddForce(gameObject.transform.up * speed * input);
+        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
 
-        input = Input.GetAxis("Horizontal");
-        GetComponent<Rigidbody2D>().AddForce(gameObject.transform.right * speed * input);
 
 
 	
