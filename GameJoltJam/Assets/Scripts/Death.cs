@@ -12,25 +12,22 @@ public class Death : MonoBehaviour {
     [SerializeField]
     private Text scoreText;
 
+    [SerializeField]
+    private GameObject manager;
+
 
 	// Use this for initialization
 	void Start () {
-        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+        manager = GameObject.FindGameObjectWithTag("Manager");
 
         if (tag == "Player" && restartMenu == null)
         {
             restartMenu = manager.GetComponent<LevelManager>().restartMenu;
-        }
-        if (tag == "Player" && scoreText == null)
-        {
-            scoreText = manager.GetComponent<LevelManager>().scoreText;
-        }
-	
+        }	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        score += Time.deltaTime;
 	
 	}
 
@@ -56,7 +53,8 @@ public class Death : MonoBehaviour {
                 string extraData = ""; // This will not be shown on the website. You can store any information.
 
                 restartMenu.SetActive(true);
-                scoreText.text = "Score: " + (int)score;
+
+                manager.GetComponent<ScoreManager>().playerIsAlive = false;
 
                 GameJolt.API.Scores.Add((int)score, score.ToString(), tableID, extraData, (bool success) => {
                      Debug.Log(string.Format("Score Add {0}.", success ? "Successful" : "Failed"));
