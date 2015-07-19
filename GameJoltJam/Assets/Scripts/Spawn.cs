@@ -17,9 +17,17 @@ public class Spawn : MonoBehaviour {
     private GameObject bullet;
     private GameObject enemy;
 
+    [SerializeField]
+    private GameObject player;
+
 
 	// Use this for initialization
 	void Start () {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         InstantiateBullets();
 
         spawnRegions.Add(new Vector3(-20, 10));
@@ -44,7 +52,18 @@ public class Spawn : MonoBehaviour {
     {
         for (int i = 0; i < noOfBullets; i++)
         {
-            GameObject bullet = Instantiate(Resources.Load("Prefabs/bullet")) as GameObject;
+            if (player.name == "PewDiePie")
+            {
+                bullet = Instantiate(Resources.Load("Prefabs/fist")) as GameObject;
+            } 
+            else if (player.name == "Markiplier")
+            {
+                bullet = Instantiate(Resources.Load("Prefabs/mustache")) as GameObject;
+            }
+            else if (player.name == "SepticEye")
+            {
+                bullet = Instantiate(Resources.Load("Prefabs/eye")) as GameObject;
+            }
             bullet.SetActive(false);
             bulletPool.Add(bullet);
         }

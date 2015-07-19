@@ -1,7 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
+
+    public GameObject restartMenu;
+    public Text scoreText;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +32,6 @@ public class LevelManager : MonoBehaviour {
     public void Quit()
     {
         Application.Quit();
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
     }
 }

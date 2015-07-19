@@ -8,12 +8,16 @@ public class PlayerActions : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (spawnScript == null)
+        {
+            spawnScript = GameObject.FindGameObjectWithTag("Manager").GetComponent<Spawn>();
+        }
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             spawnScript.SpawnBullet(gameObject);
         }	

@@ -15,6 +15,16 @@ public class Death : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+
+        if (tag == "Player" && restartMenu == null)
+        {
+            restartMenu = manager.GetComponent<LevelManager>().restartMenu;
+        }
+        if (tag == "Player" && scoreText == null)
+        {
+            scoreText = manager.GetComponent<LevelManager>().scoreText;
+        }
 	
 	}
 	

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class BotBasic : MonoBehaviour {
 
@@ -14,7 +15,14 @@ public class BotBasic : MonoBehaviour {
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        try
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Player has been destroyed, so spawned enemy has no target");
+        }
     }
 
 
