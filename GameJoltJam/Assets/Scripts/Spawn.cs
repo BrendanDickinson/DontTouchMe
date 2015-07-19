@@ -92,4 +92,10 @@ public class Spawn : MonoBehaviour {
         enemy = Instantiate(Resources.Load("Prefabs/Enemy")) as GameObject;
         enemy.transform.position = spawnRegions[region] + Random.insideUnitCircle * 0.03f;
     }
+
+    public void setPlayer(GameObject obj)
+    {
+        player = obj;
+        InstantiateBullets();
+    }
 }
