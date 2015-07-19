@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class Spawn : MonoBehaviour {
     [SerializeField]
@@ -21,6 +22,9 @@ public class Spawn : MonoBehaviour {
     private GameObject player;
 
 
+    private NetworkIdentity netIdentity;
+
+
 	// Use this for initialization
 	void Start () {
         if (player == null)
@@ -35,7 +39,7 @@ public class Spawn : MonoBehaviour {
         spawnRegions.Add(new Vector3(-20, -10));
         spawnRegions.Add(new Vector3(20, 10));
         spawnRegions.Add(new Vector3(20, -10));
-	
+
 	}
 	
 	// Update is called once per frame
@@ -80,7 +84,6 @@ public class Spawn : MonoBehaviour {
                 bulletPool[i].transform.position = shooter.transform.position;
                 bulletPool[i].GetComponent<BulletBehavior>().bulletLife = 10;
                 bulletPool[i].SetActive(true);
-                GetComponent<NetManager>().Spawn(bulletPool[i]);
                 return;
             }
         }
@@ -101,4 +104,6 @@ public class Spawn : MonoBehaviour {
         player = obj;
         InstantiateBullets();
     }
+
+
 }

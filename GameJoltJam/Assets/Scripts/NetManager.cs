@@ -28,6 +28,7 @@ public class NetManager : NetworkManager
                 if (arg == "-server")
                 {
                     server = true;
+                    print("Server mode");
                 }
             }
         }
@@ -87,11 +88,13 @@ public class NetManager : NetworkManager
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
         }
 
+
     }
 
     public void Spawn(GameObject obj)
     {
         NetworkServer.Spawn(obj);
+       // NetworkServer.SpawnObjects();
     }
 
 }

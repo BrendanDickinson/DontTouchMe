@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
-public class PlayerActions : MonoBehaviour {
+public class PlayerActions : NetworkBehaviour {
 
     [SerializeField]
     private Spawn spawnScript;
@@ -32,7 +32,8 @@ public class PlayerActions : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.Space) && firingLatency > 0.3f)
         {
-            spawnScript.SpawnBullet(gameObject);
+            //spawnScript.SpawnBullet(gameObject);
+            CmdFire();
             firingLatency = 0;
         }
         firingLatency += Time.deltaTime;
@@ -42,4 +43,15 @@ public class PlayerActions : MonoBehaviour {
     {
         Debug.Log("Player was destroyed");
     }
+
+
+    [Command]
+    public void CmdFire()
+    {
+        GameObject bullet = Instantiate(Resources.Load("Prefabs/eye")) as GameObject;
+        NetworkServer.Spawn(bullet);
+       // GetComponent<NetManager>().Spawn(bullet);
+    }
+
+
 }
