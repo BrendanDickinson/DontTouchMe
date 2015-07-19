@@ -75,7 +75,7 @@ public class NetManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
-        if (playerConn == null)
+        if (playerConn == null) 
         {
             GameObject player = GameObject.Instantiate(Resources.Load("Prefabs/SepticEye"), Vector3.zero, Quaternion.identity) as GameObject;
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
@@ -87,6 +87,11 @@ public class NetManager : NetworkManager
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
         }
 
+    }
+
+    public void Spawn(GameObject obj)
+    {
+        NetworkServer.Spawn(obj);
     }
 
 }

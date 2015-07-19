@@ -80,6 +80,7 @@ public class Spawn : MonoBehaviour {
                 bulletPool[i].transform.position = shooter.transform.position;
                 bulletPool[i].GetComponent<BulletBehavior>().bulletLife = 10;
                 bulletPool[i].SetActive(true);
+                GetComponent<NetManager>().Spawn(bulletPool[i]);
                 return;
             }
         }
