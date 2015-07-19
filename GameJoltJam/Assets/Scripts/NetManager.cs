@@ -12,6 +12,8 @@ public class NetManager : NetworkManager
 
     protected bool server = false;
     public NetworkConnection playerConn = null;
+    private UnityEngine.Object[] playerPrefabs;
+    private UnityEngine.Object prefabEnemy;
 
     // Use this for initialization
     void Start()
@@ -42,6 +44,13 @@ public class NetManager : NetworkManager
             NetworkManager.singleton.StartClient();
         }
 
+        playerPrefabs = new UnityEngine.Object[3];
+        playerPrefabs[0] = Resources.Load("Prefabs/SepticEye");
+        playerPrefabs[1] = Resources.Load("Prefabs/Markiplier");
+        playerPrefabs[2] = Resources.Load("Prefabs/PewDiePie");
+
+        prefabEnemy = Resources.Load("Prefabs/EnemyPlayer");
+
     }
 
     // Update is called once per frame
@@ -57,6 +66,12 @@ public class NetManager : NetworkManager
             playerConn = null;
         }
     }
+
+    public override void OnStopServer()
+    {
+        playerConn = null;
+    }
+
 
     /*public override void OnServerConnect(NetworkConnection conn)
     {
@@ -78,13 +93,15 @@ public class NetManager : NetworkManager
     {
         if (playerConn == null) 
         {
-            GameObject player = GameObject.Instantiate(Resources.Load("Prefabs/SepticEye"), Vector3.zero, Quaternion.identity) as GameObject;
+            int num = UnityEngine.Random.Range(0, 3);
+
+            GameObject player = GameObject.Instantiate(playerPrefabs[num], Vector3.zero, Quaternion.identity) as GameObject;
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
             playerConn = conn;
         }
         else
         { // Enemy
-            GameObject player = GameObject.Instantiate(Resources.Load("Prefabs/EnemyPlayer"), Vector3.zero, Quaternion.identity) as GameObject;
+            GameObject player = GameObject.Instantiate(prefabEnemy, Vector3.zero, Quaternion.identity) as GameObject;
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
         }
 
