@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class Death : MonoBehaviour {
+public class Death : NetworkBehaviour {
     [SerializeField]
     private float score = 0;
 
@@ -14,6 +15,8 @@ public class Death : MonoBehaviour {
 
     [SerializeField]
     private GameObject manager;
+
+	private GameObject enemy;
 
 
 	// Use this for initialization
@@ -48,7 +51,9 @@ public class Death : MonoBehaviour {
         {
             if (collider.gameObject.tag == "Enemy")
             {
-                Destroy(gameObject);
+
+				enemy = collider.gameObject;
+				CmdRespawn();
                 int tableID = 83537; // Set it to 0 for main highscore table.
                 string extraData = ""; // This will not be shown on the website. You can store any information.
 
@@ -66,4 +71,14 @@ public class Death : MonoBehaviour {
             }
         }
     }
+
+
+	[Command]
+	private void CmdRespawn() {
+		NetworkIdentity ident = enemy.GetComponent<NetworkIdentity> ();
+		manager.GetComponent<NetManager>().Respawn(ident);
+		Destroy(enemy);
+        Destroy(gameObject);
+	}
+
 }

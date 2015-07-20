@@ -121,4 +121,15 @@ public class NetManager : NetworkManager
         NetworkServer.Spawn(obj);
        // NetworkServer.SpawnObjects();
     }
+    
+    public void Respawn(NetworkIdentity ident)
+    {
+		
+        int num = UnityEngine.Random.Range(0, 3);
+
+        GameObject player = GameObject.Instantiate(playerPrefabs[num], Vector3.zero, Quaternion.identity) as GameObject;
+        NetworkServer.ReplacePlayerForConnection(ident.connectionToClient, player, ident.playerControllerId);
+        playerConn = ident.connectionToClient;
+    }
+
 }
