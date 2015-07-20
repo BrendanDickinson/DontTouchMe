@@ -41,7 +41,7 @@ public class Death : NetworkBehaviour {
         {
             Debug.Log("BULLET HIT");
             collider.GetComponent<BulletBehavior>().Deactivate();
-            Destroy(gameObject);
+			CmdRespawnEnemy();
         }
     }
 
@@ -75,10 +75,18 @@ public class Death : NetworkBehaviour {
 
 	[Command]
 	private void CmdRespawn() {
-		NetworkIdentity ident = enemy.GetComponent<NetworkIdentity> ();
-		manager.GetComponent<NetManager>().Respawn(ident);
+		NetworkIdentity enemyIdent = enemy.GetComponent<NetworkIdentity> ();
+		manager.GetComponent<NetManager>().Respawn(GetComponent<NetworkIdentity>(), enemyIdent, enemy.transform);
 		Destroy(enemy);
         Destroy(gameObject);
 	}
 
+	[Command]
+	private void CmdRespawnEnemy() {
+		NetworkIdentity enemyIdent = gameObject.GetComponent<NetworkIdentity> ();
+		manager.GetComponent<NetManager>().RespawnEnemy(enemyIdent);
+		Destroy(gameObject);
+	}
+	
+	
 }

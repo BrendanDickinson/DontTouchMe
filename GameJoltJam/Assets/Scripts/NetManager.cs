@@ -122,14 +122,25 @@ public class NetManager : NetworkManager
        // NetworkServer.SpawnObjects();
     }
     
-    public void Respawn(NetworkIdentity ident)
+	public void Respawn(NetworkIdentity ident, NetworkIdentity enemyIdent, Transform transform)
     {
 		
         int num = UnityEngine.Random.Range(0, 3);
 
-        GameObject player = GameObject.Instantiate(playerPrefabs[num], Vector3.zero, Quaternion.identity) as GameObject;
-        NetworkServer.ReplacePlayerForConnection(ident.connectionToClient, player, ident.playerControllerId);
-        playerConn = ident.connectionToClient;
-    }
+        GameObject player = GameObject.Instantiate(playerPrefabs[num], transform.position, Quaternion.identity) as GameObject;
+		NetworkServer.ReplacePlayerForConnection(enemyIdent.connectionToClient, player, enemyIdent.playerControllerId);
+		playerConn = enemyIdent.connectionToClient;
 
+		player = GameObject.Instantiate(prefabEnemy, Vector3.zero, Quaternion.identity) as GameObject;
+		NetworkServer.AddPlayerForConnection(ident.connectionToClient, player, ident.playerControllerId);
+
+	}
+
+
+	public void RespawnEnemy(NetworkIdentity ident) {
+		GameObject player = GameObject.Instantiate(prefabEnemy, Vector3.zero, Quaternion.identity) as GameObject;
+		NetworkServer.ReplacePlayerForConnection(ident.connectionToClient, player, ident.playerControllerId);
+	}
+	
+	
 }
