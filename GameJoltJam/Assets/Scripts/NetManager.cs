@@ -121,5 +121,4 @@ public class NetManager : NetworkManager
         NetworkServer.Spawn(obj);
        // NetworkServer.SpawnObjects();
     }
-
 }
