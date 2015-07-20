@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System;
@@ -14,6 +14,8 @@ public class NetManager : NetworkManager
     public NetworkConnection playerConn = null;
     private UnityEngine.Object[] playerPrefabs;
     private UnityEngine.Object prefabEnemy;
+
+    private Dictionary<int, GameObject> playerDictionary = new Dictionary<int, GameObject>();
 
     // Use this for initialization
     void Start()
@@ -65,6 +67,11 @@ public class NetManager : NetworkManager
         {
             playerConn = null;
         }
+
+        NetworkServer.DestroyPlayersForConnection(conn);
+        Destroy(playerDictionary[conn.connectionId]);
+        playerDictionary.Remove(conn.connectionId);
+        
     }
 
     public override void OnStopServer()
@@ -91,21 +98,22 @@ public class NetManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
     {
+        GameObject player;
         if (playerConn == null) 
         {
             int num = UnityEngine.Random.Range(0, 3);
 
-            GameObject player = GameObject.Instantiate(playerPrefabs[num], Vector3.zero, Quaternion.identity) as GameObject;
+            player = GameObject.Instantiate(playerPrefabs[num], Vector3.zero, Quaternion.identity) as GameObject;
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
             playerConn = conn;
         }
         else
         { // Enemy
-            GameObject player = GameObject.Instantiate(prefabEnemy, Vector3.zero, Quaternion.identity) as GameObject;
+            player = GameObject.Instantiate(prefabEnemy, Vector3.zero, Quaternion.identity) as GameObject;
             NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
         }
 
-
+        playerDictionary.Add(playerConn.connectionId, player);
     }
 
     public void Spawn(GameObject obj)
